@@ -15,92 +15,115 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted flex flex-col">
       {/* Header */}
-      <header className="py-6 px-4 sm:px-6 lg:px-8">
+      <header className="py-6 px-4 sm:px-6 lg:px-8" role="banner">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">SFDC Studio</h1>
-          <nav className="hidden md:block">
+          <nav className="hidden md:block" aria-label="Main Navigation">
             <ul className="flex space-x-8">
-              <li><a href="#" className="text-sm font-medium hover:text-primary">Features</a></li>
-              <li><a href="#" className="text-sm font-medium hover:text-primary">Documentation</a></li>
-              <li><a href="#" className="text-sm font-medium hover:text-primary">Support</a></li>
+              <li>
+                <a
+                  href="#features"
+                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                >
+                  Features
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#docs"
+                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                >
+                  Documentation
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#support"
+                  className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                >
+                  Support
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow flex items-center justify-center p-4">
+      <main id="main-content" className="flex-grow flex items-center justify-center p-4">
         <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Content Section */}
           <div className="space-y-6">
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+            <h2 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight">
               Modern Salesforce Workbench Alternative
-            </h1>
+            </h2>
             <p className="text-xl text-muted-foreground">
-              Streamlined browser-based tool for Salesforce data management and SOQL queries
+              Streamlined browser-based tool for Salesforce data management and SOQL queries.
             </p>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-              <div className="flex items-start space-x-3">
-                <div className="mt-1 w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                <div>
-                  <h3 className="font-semibold">Enhanced Data Loader</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Import, export, and manage Salesforce records with improved performance
-                  </p>
+              {[
+                {
+                  title: "Enhanced Data Loader",
+                  desc: "Import, export, and manage Salesforce records with improved performance.",
+                },
+                {
+                  title: "Workbench Features",
+                  desc: "Execute SOQL/SOSL queries and explore Salesforce schema.",
+                },
+                {
+                  title: "Secure Authentication",
+                  desc: "Direct Salesforce integration with OAuth 2.0.",
+                },
+                {
+                  title: "No Installation",
+                  desc: "Browser-based access from any device — no setup required.",
+                },
+              ].map((feature, idx) => (
+                <div key={idx} className="flex items-start gap-3">
+                  <div
+                    className="mt-1 w-2 h-2 bg-primary rounded-full flex-shrink-0"
+                    aria-hidden="true"
+                  />
+                  <div>
+                    <h3 className="font-semibold">{feature.title}</h3>
+                    <p className="text-sm text-muted-foreground">{feature.desc}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="mt-1 w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                <div>
-                  <h3 className="font-semibold">Workbench Features</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Execute SOQL/SOSL queries and explore Salesforce schema
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="mt-1 w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                <div>
-                  <h3 className="font-semibold">Secure Authentication</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Direct Salesforce integration with OAuth 2.0
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start space-x-3">
-                <div className="mt-1 w-2 h-2 bg-primary rounded-full flex-shrink-0"></div>
-                <div>
-                  <h3 className="font-semibold">No Installation</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Browser-based access from any device
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 
           {/* Login Card */}
           <div className="flex justify-center">
-            <Card className="w-full max-w-md shadow-xl">
+            <Card
+              className="w-full max-w-md shadow-xl"
+              aria-labelledby="login-title"
+            >
               <CardHeader className="text-center">
-                <CardTitle className="text-2xl">Connect to Salesforce</CardTitle>
+                <CardTitle id="login-title" className="text-2xl">
+                  Connect to Salesforce
+                </CardTitle>
                 <CardDescription>
-                  Select your environment and authenticate with Salesforce
+                  Select your environment and authenticate securely.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">
+                  <label htmlFor="salesforce-env" className="text-sm font-medium">
                     Salesforce Environment
                   </label>
                   <Select defaultValue="production">
-                    <SelectTrigger className="w-full py-6">
-                      <SelectValue />
+                    <SelectTrigger
+                      id="salesforce-env"
+                      className="w-full py-6"
+                      aria-label="Select Salesforce environment"
+                    >
+                      <SelectValue placeholder="Select environment" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="production">Production</SelectItem>
@@ -108,9 +131,25 @@ export default function Home() {
                     </SelectContent>
                   </Select>
                 </div>
+
+                {/* T&C Agreement */}
+                <p className="text-sm text-center text-muted-foreground">
+                  By logging in, you agree to our{" "}
+                  <a
+                    href="/terms"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline font-medium focus:underline focus:outline-none"
+                  >
+                    Terms and Conditions
+                  </a>.
+                </p>
               </CardContent>
               <CardFooter>
-                <Button className="w-full py-6 text-base">
+                <Button
+                  className="w-full py-6 text-base"
+                  aria-label="Sign in with Salesforce"
+                >
                   Login With Salesforce
                 </Button>
               </CardFooter>
@@ -120,9 +159,13 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="py-8 px-4 sm:px-6 lg:px-8 border-t">
+      <footer
+        className="py-8 px-4 sm:px-6 lg:px-8 border-t"
+        role="contentinfo"
+      >
         <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} SFDC Studio. All rights reserved.</p>
+          &copy; {new Date().getFullYear()}{" "}
+          <span className="font-semibold text-foreground">SFDC Studio</span>. All rights reserved.
         </div>
       </footer>
     </div>
