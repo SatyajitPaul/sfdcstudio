@@ -80,6 +80,7 @@ jobs:
           NEXT_PUBLIC_SF_LOGIN_URL_SANDBOX: ${{ secrets.NEXT_PUBLIC_SF_LOGIN_URL_SANDBOX }}
           NEXT_PUBLIC_SF_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_SF_REDIRECT_URI }}
           SF_CONSUMER_SECRET: ${{ secrets.SF_CONSUMER_SECRET }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
