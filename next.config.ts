@@ -8,15 +8,8 @@ const withSerwist = withSerwistInit({
   swDest: "public/sw.js",
 });
 
-const isProd = process.env.NODE_ENV === 'production';
 const nextConfig: NextConfig = {
-  reactStrictMode: true,
-  images: {
-    unoptimized: true, // Disable default image optimization if not needed
-  },
-  assetPrefix: isProd ? '/sfdcstudio/' : '',
-  basePath: isProd ? '/sfdcstudio' : '',
-  output: 'export',
+  
 };
 
 export default withSerwist(nextConfig);
