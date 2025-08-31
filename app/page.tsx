@@ -1,3 +1,6 @@
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -14,63 +17,73 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: {
-    template: "%s | SFDC Studio - Salesforce Workbench Alternative",
-    default: "SFDC Studio - Modern Salesforce Workbench & Data Loader Alternative"
-  },
-  description: "The best Salesforce Workbench alternative for developers. Query, explore, and manage Salesforce data with our fast, secure Workbench tool. Free Data Loader replacement with no setup required.",
-  keywords: [
-    "Salesforce Workbench",
-    "Workbench",
-    "Data Loader",
-    "Salesforce",
-    "SFDC",
-    "Salesforce tools",
-    "Salesforce data management",
-    "SOQL query tool",
-    "Salesforce Workbench alternative",
-    "Data Loader alternative",
-    "free Salesforce tools",
-    "online Salesforce Workbench",
-    "browser-based Workbench"
-  ],
-  authors: [{ name: "Satyajit Paul" }],
-  creator: "Satyajit Paul",
-  publisher: "Satyajit Paul",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://satyajitpaul.github.io/sfdcstudio/",
-    title: "SFDC Studio - Salesforce Workbench & Data Loader Alternative",
-    description: "Modern alternative to Salesforce Workbench and Data Loader. Fast, secure, and intuitive tool for querying and managing Salesforce data.",
-    siteName: "SFDC Studio",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "SFDC Studio - Modern Salesforce Workbench Alternative",
-    description: "The best Workbench and Data Loader replacement for Salesforce developers. Query and manage data with ease.",
-  },
-  alternates: {
-    canonical: "https://satyajitpaul.github.io/sfdcstudio/",
-  },
-};
 
 
 export default function HomePage() {
+  const [env, setEnv] = useState("production");
+  const [year, setYear] = useState<number | null>(null);
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+  const router = useRouter();
+
+  useEffect(() => {
+    const sessionRaw = sessionStorage.getItem("sfSession");
+    if (sessionRaw) {
+      console.log("No session found, redirecting to home");
+      router.push("/dashboard");
+      return;
+    }
+  }, [router]);
+
+  const handleLogin = async () => {
+    const clientId = process.env.NEXT_PUBLIC_SF_CONSUMER_KEY;
+    const redirectUri = process.env.NEXT_PUBLIC_SF_REDIRECT_URI;
+    const loginUrl =
+      env === "production"
+        ? process.env.NEXT_PUBLIC_SF_LOGIN_URL_PROD
+        : process.env.NEXT_PUBLIC_SF_LOGIN_URL_SANDBOX;
+
+    const scope = "api refresh_token";
+    const state = Math.random().toString(36).substring(2);
+    const codeVerifier = generateCodeVerifier();
+    const codeChallenge = await generateCodeChallenge(codeVerifier);
+
+    // Store securely in sessionStorage (better than localStorage for auth)
+    sessionStorage.setItem("codeVerifier", codeVerifier);
+    sessionStorage.setItem("oauthState", state);
+    sessionStorage.setItem("loginEnv", env); // Save env for post-callback use
+
+    const authUrl = `${loginUrl}/services/oauth2/authorize?` +
+      new URLSearchParams({
+        response_type: "code",
+        client_id: clientId!,
+        redirect_uri: redirectUri!,
+        scope,
+        state,
+        code_challenge: codeChallenge,
+        code_challenge_method: "S256",
+      }).toString();
+
+    window.location.href = authUrl;
+  };
+
+  function generateCodeVerifier() {
+    return Array(56)
+      .fill(0)
+      .map(() => Math.random().toString(36).charAt(2))
+      .join("");
+  }
+
+  async function generateCodeChallenge(codeVerifier: string) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(codeVerifier);
+    const hash = await window.crypto.subtle.digest("SHA-256", data);
+    return btoa(String.fromCharCode(...new Uint8Array(hash)))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+  }
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-muted flex flex-col">
       {/* Header */}
@@ -172,7 +185,7 @@ export default function HomePage() {
                   <label htmlFor="salesforce-env" className="text-sm font-medium">
                     Salesforce Environment
                   </label>
-                  <Select defaultValue="production">
+                  <Select value={env} onValueChange={setEnv}>
                     <SelectTrigger
                       id="salesforce-env"
                       className="w-full py-6"
@@ -204,6 +217,7 @@ export default function HomePage() {
                 <Button
                   className="w-full py-6 text-base"
                   aria-label="Sign in with Salesforce"
+                  onClick={handleLogin}
                 >
                   Login With Salesforce
                 </Button>
@@ -219,7 +233,7 @@ export default function HomePage() {
         role="contentinfo"
       >
         <div className="max-w-6xl mx-auto text-center text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()}{" "}
+          &copy; {year ?? "2025"}
           <span className="font-semibold text-foreground">SFDC Studio</span>. All rights reserved.
         </div>
       </footer>

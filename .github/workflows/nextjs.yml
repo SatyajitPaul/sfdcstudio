@@ -74,6 +74,12 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
+        env:
+          NEXT_PUBLIC_SF_CONSUMER_KEY: ${{ secrets.NEXT_PUBLIC_SF_CONSUMER_KEY }}
+          NEXT_PUBLIC_SF_LOGIN_URL_PROD: ${{ secrets.NEXT_PUBLIC_SF_LOGIN_URL_PROD }}
+          NEXT_PUBLIC_SF_LOGIN_URL_SANDBOX: ${{ secrets.NEXT_PUBLIC_SF_LOGIN_URL_SANDBOX }}
+          NEXT_PUBLIC_SF_REDIRECT_URI: ${{ secrets.NEXT_PUBLIC_SF_REDIRECT_URI }}
+          SF_CONSUMER_SECRET: ${{ secrets.SF_CONSUMER_SECRET }}
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | SFDC Studio",
+  title: "Terms of Service",
   description:
     "Please read these Terms of Service carefully before using SFDC Studio. Your use of the service constitutes acceptance of these terms.",
   keywords: [
