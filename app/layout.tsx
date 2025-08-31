@@ -1,13 +1,14 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: {
     template: "%s | SFDC Studio - Salesforce Workbench Alternative",
     default: "SFDC Studio - Modern Salesforce Workbench & Data Loader Alternative"
   },
-  description: "The best Salesforce Workbench alternative for developers. Query, explore, and manage Salesforce data with our fast, secure Workbench tool. Free Data Loader replacement with no setup required.",
+  description: "The best Salesforce Workbench alternative for developers. Query, explore, and manage Salesforce data with our fast, secure Workbench tool. Data Loader replacement with no setup required.",
   keywords: [
     "Salesforce Workbench",
     "Workbench",
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     "SOQL query tool",
     "Salesforce Workbench alternative",
     "Data Loader alternative",
-    "free Salesforce tools",
+    "Salesforce tools",
     "online Salesforce Workbench",
     "browser-based Workbench"
   ],
@@ -54,6 +55,11 @@ export const metadata: Metadata = {
     canonical: "https://satyajitpaul.github.io/sfdcstudio/",
   },
   manifest: "/manifest.json",
+  verification: {
+    other: {
+      "google-site-verification": "google37bea35da3a72d41"
+    }
+  }
 };
 
 
@@ -68,6 +74,7 @@ export default function RootLayout({
         className={`antialiased`}
       >
         {children}
+        <Toaster />
       </body>
       <GoogleAnalytics gaId="G-8VNJCHMP8X" />
     </html>
