@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { Toaster } from "@/components/ui/sonner";
 
-export const runtime = "edge";
 
 export const metadata: Metadata = {
   title: {
