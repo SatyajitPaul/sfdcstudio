@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://satyajitpaul.github.io/sfdcstudio/",
+    url: process.env.NEXT_PUBLIC_APP_URL + "/",
     title: "SFDC Studio - Salesforce Workbench & Data Loader Alternative",
     description: "Modern alternative to Salesforce Workbench and Data Loader. Fast, secure, and intuitive tool for querying and managing Salesforce data.",
     siteName: "SFDC Studio",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     description: "The best Workbench and Data Loader replacement for Salesforce developers. Query and manage data with ease.",
   },
   alternates: {
-    canonical: "https://satyajitpaul.github.io/sfdcstudio/",
+    canonical: process.env.NEXT_PUBLIC_APP_URL + "/",
   },
   manifest: "/manifest.json",
   verification: {

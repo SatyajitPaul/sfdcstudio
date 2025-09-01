@@ -18,11 +18,11 @@ export const metadata: Metadata = {
     title: "Terms of Service - SFDC Studio",
     description:
       "Legal terms governing your use of SFDC Studio, a modern Salesforce Workbench alternative.",
-    url: "https://satyajitpaul.github.io/sfdcstudio/terms",
+    url: process.env.NEXT_PUBLIC_APP_URL + "/terms",
     type: "website",
   },
   alternates: {
-    canonical: "https://satyajitpaul.github.io/sfdcstudio/terms",
+    canonical: process.env.NEXT_PUBLIC_APP_URL + "/terms",
   },
   robots: {
     index: true,
