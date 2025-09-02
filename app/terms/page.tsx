@@ -42,7 +42,7 @@ export default function TermsPage() {
           </h1>
           <p className="mt-3 text-lg text-muted-foreground">
             Last Updated:{" "}
-            {new Date("2025-04-05").toLocaleDateString("en-US", {
+            {new Date("2022-09-02").toLocaleDateString("en-US", {
               year: "numeric",
               month: "long",
               day: "numeric",
